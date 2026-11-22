@@ -12,6 +12,8 @@ const workingRuleRoutes = require("./routes/workingRuleRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const authRoutes = require("./routes/authRoutes");
 const authMiddleware = require("./middleware/authMiddleware");
+const searchRoutes = require("./routes/searchRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 // Import routes
 const employeeRoutes = require("./routes/employeeRoutes");
 
@@ -24,10 +26,18 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL,
+    ].filter(Boolean),
   })
 );
-
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Smart Roster API is running!",
+  });
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -43,7 +53,8 @@ app.get("/api/test", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.use("/api", authMiddleware);
-
+app.use("/api/search", searchRoutes);
+app.use("/api/notifications", notificationRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/pods", podRoutes);
 app.use("/api/brands", brandRoutes);

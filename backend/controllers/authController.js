@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-// ADMIN LOGIN
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -13,10 +12,14 @@ const login = async (req, res) => {
       });
     }
 
-    // Find user and explicitly include password
     const user = await User.findOne({
       email: email.toLowerCase().trim(),
     }).select("+password");
+
+    // Debug logs
+    console.log("Login email:", email);
+    console.log("Database:", User.db.name);
+    console.log("User found:", !!user);
 
     if (!user) {
       return res.status(401).json({
@@ -25,16 +28,19 @@ const login = async (req, res) => {
       });
     }
 
-    // Only Admin can access the admin login
+    console.log("Role:", user.role);
+    console.log("Password hash exists:", !!user.password);
+
+    const isMatch = await user.comparePassword(password);
+
+    console.log("Password matches:", isMatch);
+
     if (user.role !== "Admin") {
       return res.status(403).json({
         success: false,
         message: "You are not authorized to access the admin panel.",
       });
     }
-
-    // Verify password
-    const isMatch = await user.comparePassword(password);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -43,16 +49,10 @@ const login = async (req, res) => {
       });
     }
 
-    // Generate JWT
     const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
+      { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
 
     return res.status(200).json({
@@ -66,7 +66,6 @@ const login = async (req, res) => {
         role: user.role,
       },
     });
-
   } catch (error) {
     console.error("Login error:", error);
 

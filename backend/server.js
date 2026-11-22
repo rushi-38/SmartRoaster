@@ -9,6 +9,7 @@ const brandRoutes = require("./routes/brandRoutes");
 const leaveRoutes = require("./routes/leaveRoutes");
 const rosterRoutes = require("./routes/rosterRoutes");
 const workingRuleRoutes = require("./routes/workingRuleRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 // Import routes
 const employeeRoutes = require("./routes/employeeRoutes");
 
@@ -45,6 +46,7 @@ app.use("/api/assignments", assignmentRoutes);
 app.use("/api/working-rules", workingRuleRoutes);
 app.use("/api/leaves", leaveRoutes);
 app.use("/api/rosters", rosterRoutes);
+app.use("/api/reports", reportRoutes);
 // Handle unknown routes
 app.use((req, res) => {
   res.status(404).json({

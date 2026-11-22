@@ -16,6 +16,7 @@ import Brands from "./pages/Brands";
 import Processes from "./pages/Processes";
 import Roster from "./pages/Roster";
 import Conflicts from "./pages/Conflicts";
+import Reports from "./pages/Reports";
 import "./App.css";
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
               <Route path="/leaves" element={<Leaves />} />
               <Route path="/roster" element={<Roster />} />
               <Route path="/conflicts" element={<Conflicts />} />
+              <Route path="/reports" element={<Reports />} />
             </Routes>
 
           </div>

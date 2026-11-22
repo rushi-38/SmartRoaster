@@ -10,6 +10,8 @@ const leaveRoutes = require("./routes/leaveRoutes");
 const rosterRoutes = require("./routes/rosterRoutes");
 const workingRuleRoutes = require("./routes/workingRuleRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const authRoutes = require("./routes/authRoutes");
+const authMiddleware = require("./middleware/authMiddleware");
 // Import routes
 const employeeRoutes = require("./routes/employeeRoutes");
 
@@ -38,6 +40,10 @@ app.get("/api/test", (req, res) => {
 });
 
 // Employee Routes
+app.use("/api/auth", authRoutes);
+
+app.use("/api", authMiddleware);
+
 app.use("/api/employees", employeeRoutes);
 app.use("/api/pods", podRoutes);
 app.use("/api/brands", brandRoutes);

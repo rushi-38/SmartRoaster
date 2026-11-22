@@ -221,7 +221,7 @@ For demonstration purposes, a demo administrator account can be provided for a l
 | Field | Value |
 |---|---|
 | Email | admin@smartroster.com |
-| Password | Password123!|
+| Password | YourNewStrongPassword
 
 **Note:** The demo account must be created using the administrator seed script before login. Do not publish production administrator credentials or give public users unrestricted administrative access. For a publicly deployed demo, use a separate test database and restrict destructive operations.
 
